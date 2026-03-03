@@ -1,0 +1,57 @@
+[
+  {
+    "id": "goodpessah",
+    "title": "goodpessah.fr",
+    "description": "Site e-commerce de livraison de nourriture cachère pour Pessah. Paiement Stripe, authentification Clerk, déploiement Vercel.",
+    "type": "Application web",
+    "status": "wip",
+    "stack": ["Next.js", "React", "PostgreSQL", "Stripe", "Clerk", "Vercel"],
+    "links": {
+      "demo": "https://goodpessah.fr",
+      "github": "https://github.com/rapho9864/goodpessah"
+    },
+    "featured": true
+  },
+  {
+    "id": "biblio",
+    "title": "Biblio — Gestion de bibliothèque",
+    "description": "Système fullstack de gestion de bibliothèque en ligne : catalogue, emprunts, utilisateurs.",
+    "type": "Application web",
+    "status": "wip",
+    "stack": ["React", "Node.js", "Express", "PostgreSQL", "Docker"],
+    "links": {
+      "github": "https://github.com/rapho9864/biblio"
+    },
+    "featured": true
+  },
+  {
+    "id": "portail-capgemini",
+    "title": "Portail d'intégration Capgemini",
+    "description": "Portail web interne pour faciliter l'onboarding des nouveaux collaborateurs chez Capgemini.",
+    "type": "Application web",
+    "status": "archived",
+    "stack": ["Angular", "Spring Boot", "TypeScript"],
+    "links": {},
+    "featured": false
+  },
+  {
+    "id": "interface-ia",
+    "title": "Interface de génération de tests par IA",
+    "description": "Interface frontend permettant de soumettre une image et de générer automatiquement des tests Angular, Spring Boot et React.",
+    "type": "Application web",
+    "status": "archived",
+    "stack": ["Angular", "React", "Spring Boot"],
+    "links": {},
+    "featured": false
+  },
+  {
+    "id": "notification-rgb",
+    "title": "Système de notification RGB — Penang",
+    "description": "Application Android et site Angular pour la gestion de notifications dans des casinos à Penang, Malaisie.",
+    "type": "Application mobile",
+    "status": "archived",
+    "stack": ["React Native", "Angular", "TypeScript"],
+    "links": {},
+    "featured": false
+  }
+]
