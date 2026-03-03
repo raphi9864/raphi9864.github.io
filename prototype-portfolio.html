@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>John Doe — Fullstack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #10131a;
+    --bg2:       #141820;
+    --surface:   #1a1f2e;
+    --border:    rgba(255,255,255,0.07);
+    --accent:    #4F8EF7;
+    --accent-dim:#4F8EF720;
+    --green:     #3dd68c;
+    --text:      #c8cdd8;
+    --text-dim:  #5a6070;
+    --text-bright:#eef0f5;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'Playfair Display', serif;
+    --mono: 'DM Mono', monospace;
+    --radius: 12px;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ─── SUBTLE BACKGROUND TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% -10%, rgba(79,142,247,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(61,214,140,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(16,19,26,0.8);
+    backdrop-filter: blur(16px);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--text-bright);
+    letter-spacing: -0.3px;
+  }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--text-bright); }
+  .nav-cta {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 0.45rem 1.1rem;
+    border-radius: 6px;
+    font-size: 13px !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-weight: 500 !important;
+    transition: opacity var(--transition) !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ─── SECTIONS BASE ─── */
+  section {
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 7rem 2rem;
+  }
+  section:first-of-type { padding-top: 10rem; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--text-bright);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--text-dim);
+    max-width: 520px;
+    font-size: 15px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    max-width: 1100px; margin: 0 auto;
+    height: 1px; background: var(--border);
+    position: relative; z-index: 1;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: flex; align-items: center;
+    padding-top: 64px;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+  }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .dot-live {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green);
+    animation: blink 2.5s ease infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+    color: var(--text-bright);
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+  }
+  .hero-role {
+    font-family: var(--sans);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+  }
+  .hero-role strong { color: var(--accent); font-weight: 500; }
+  .hero-desc {
+    color: var(--text);
+    max-width: 500px;
+    font-size: 15.5px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: opacity var(--transition), transform var(--transition);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  /* Hero card */
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+  }
+  .hero-card-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .stat-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .stat { }
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--text-bright);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .hero-card-tags {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(79,142,247,0.2);
+  }
+  .tag.green { background: rgba(61,214,140,0.1); color: var(--green); border-color: rgba(61,214,140,0.2); }
+
+  /* ─── PROJETS ─── */
+  .projects-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: border-color var(--transition), transform var(--transition);
+    position: relative; overflow: hidden;
+    text-decoration: none; color: inherit;
+    display: block;
+  }
+  .project-card:hover {
+    border-color: rgba(79,142,247,0.35);
+    transform: translateY(-3px);
+  }
+  .project-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(79,142,247,0.04), transparent 60%);
+    pointer-events: none;
+  }
+  .project-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .project-type {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .project-status {
+    font-size: 11px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .status-live { background: rgba(61,214,140,0.1); color: var(--green); }
+  .status-wip  { background: rgba(255,180,0,0.1); color: #f5a623; }
+  .project-title {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--text-bright);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+  .project-desc {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+  .project-stack {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+  .tech-pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .project-links {
+    display: flex; gap: 1rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  .project-link {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: color var(--transition);
+  }
+  .project-link:hover { color: var(--accent); }
+  .project-link svg { width: 13px; height: 13px; }
+
+  /* ─── STACK ─── */
+  .stack-section { }
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .stack-category {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+  .stack-cat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .stack-items {
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .stack-item {
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .stack-icon {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .stack-info { flex: 1; }
+  .stack-name {
+    font-size: 13.5px;
+    color: var(--text-bright);
+    font-weight: 500;
+    margin-bottom: 0.15rem;
+  }
+  .stack-bar-bg {
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .stack-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    transition: width 1s ease;
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .contact-info p {
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+  .contact-links {
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.75rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color var(--transition), color var(--transition);
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  .contact-link-icon {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* Form */
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-label { font-size: 12px; color: var(--text-dim); font-weight: 500; letter-spacing: 0.05em; }
+  .form-input, .form-textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text-bright);
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    transition: border-color var(--transition);
+    resize: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: rgba(79,142,247,0.5); }
+  .form-textarea { height: 120px; }
+  .btn-submit {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: opacity var(--transition), transform var(--transition);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .footer-socials { display: flex; gap: 1rem; }
+  .footer-social {
+    width: 34px; height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color var(--transition), color var(--transition);
+  }
+  .footer-social:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-card { display: none; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">John<span style="color:var(--accent)">.</span>Doe</div>
+  <ul class="nav-links">
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Me contacter</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="accueil">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">
+        <span class="dot-live"></span>
+        Disponible pour missions — Fullstack Developer
+      </div>
+      <h1>John Doe</h1>
+      <p class="hero-role">Je construis des <strong>applications web robustes</strong>, du frontend au backend.</p>
+      <p class="hero-desc">
+        Développeur fullstack avec X ans d'expérience, spécialisé dans la conception d'interfaces soignées et d'APIs performantes. J'aime les projets qui ont du sens, bien architecturés, bien testés.
+      </p>
+      <div class="hero-actions">
+        <a href="#projets" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+          Voir mes projets
+        </a>
+        <a href="#" class="btn-secondary" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Télécharger mon CV
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-card reveal reveal-delay-2">
+      <div class="hero-card-label">// aperçu</div>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-value">5+</div>
+          <div class="stat-label">Années d'expérience</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">20+</div>
+          <div class="stat-label">Projets livrés</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Technologies maîtrisées</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Remote-ready</div>
+        </div>
+      </div>
+      <div class="hero-card-tags">
+        <span class="tag">Angular</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag green">Open to work</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── PROJETS ─── -->
+<section id="projets">
+  <div class="projects-header reveal">
+    <div>
+      <div class="section-label">Mes réalisations</div>
+      <h2 class="section-title">Projets</h2>
+    </div>
+    <a href="https://github.com/votre-username" class="btn-secondary" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+      Voir GitHub
+    </a>
+  </div>
+
+  <div class="projects-grid">
+    <a href="#" class="project-card reveal">
+      <div class="project-meta">
+        <span class="project-type">Application web</span>
+        <span class="project-status status-live">● Live</span>
+      </div>
+      <h3 class="project-title">Dashboard Analytics</h3>
+      <p class="project-desc">Interface de visualisation de données temps réel pour le suivi de KPIs e-commerce. Intégration WebSocket, graphiques interactifs.</p>
+      <div class="project-stack">
+        <span class="tech-pill">Angular</span>
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">PostgreSQL</span>
+        <span class="tech-pill">Chart.js</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          Demo live
+        </a>
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+          Code source
+        </a>
+      </div>
+    </a>
+
+    <a href="#" class="project-card reveal reveal-delay-1">
+      <div class="project-meta">
+        <span class="project-type">API REST</span>
+        <span class="project-status status-live">● Live</span>
+      </div>
+      <h3 class="project-title">API de gestion RH</h3>
+      <p class="project-desc">Backend complet pour application de gestion des ressources humaines. Auth JWT, rôles granulaires, documentation Swagger.</p>
+      <div class="project-stack">
+        <span class="tech-pill">Express.js</span>
+        <span class="tech-pill">TypeScript</span>
+        <span class="tech-pill">Prisma</span>
+        <span class="tech-pill">Redis</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          Documentation
+        </a>
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+          Code source
+        </a>
+      </div>
+    </a>
+
+    <a href="#" class="project-card reveal reveal-delay-2">
+      <div class="project-meta">
+        <span class="project-type">Projet perso</span>
+        <span class="project-status status-wip">◐ En cours</span>
+      </div>
+      <h3 class="project-title">DevLog — CLI Tool</h3>
+      <p class="project-desc">Outil en ligne de commande pour journaliser ses sessions de travail, générer des rapports hebdomadaires et suivre sa progression.</p>
+      <div class="project-stack">
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">Commander.js</span>
+        <span class="tech-pill">SQLite</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+          Code source
+        </a>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── STACK ─── -->
+<section id="stack">
+  <div class="reveal">
+    <div class="section-label">Outils & technologies</div>
+    <h2 class="section-title">Ma stack technique</h2>
+    <p class="section-sub">Les technologies avec lesquelles je travaille au quotidien, côté client, serveur et infrastructure.</p>
+  </div>
+
+  <div class="stack-grid">
+    <div class="stack-category reveal reveal-delay-1">
+      <div class="stack-cat-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Frontend
+      </div>
+      <div class="stack-items">
+        <div class="stack-item">
+          <div class="stack-icon">⬡</div>
+          <div class="stack-info">
+            <div class="stack-name">Angular</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:90%"></div></div>
+          </div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-icon">✦</div>
+          <div class="stack-info">
+            <div class="stack-name">TypeScript</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:88%"></div></div>
+          </div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-icon">#</div>
+          <div class="stack-info">
+            <div class="stack-name">SCSS / Tailwind</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:82%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-category reveal reveal-delay-2">
+      <div class="stack-cat-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+        Backend
+      </div>
+      <div class="stack-items">
+        <div class="stack-item">
+          <div class="stack-icon">⬢</div>
+          <div class="stack-info">
+            <div class="stack-name">Node.js / Express</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-icon">☕</div>
+          <div class="stack-info">
+            <div class="stack-name">NestJS</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:70%"></div></div>
+          </div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-icon">λ</div>
+          <div class="stack-info">
+            <div class="stack-name">REST / GraphQL</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:78%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-category reveal reveal-delay-3">
+      <div class="stack-cat-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Base de données & Infra
+      </div>
+      <div class="stack-items">
+        <div class="stack-item">
+          <div class="stack-icon">🐘</div>
+          <div class="stack-info">
+            <div class="stack-name">PostgreSQL</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:84%"></div></div>
+          </div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-icon">🐳</div>
+          <div class="stack-info">
+            <div class="stack-name">Docker</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:72%"></div></div>
+          </div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-icon">⚡</div>
+          <div class="stack-info">
+            <div class="stack-name">Redis</div>
+            <div class="stack-bar-bg"><div class="stack-bar" style="width:65%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">Travaillons ensemble</div>
+      <h2 class="section-title">Contact</h2>
+      <p style="color:var(--text-dim);margin-top:1rem;margin-bottom:2rem;line-height:1.8;max-width:360px;">
+        Disponible pour des missions en freelance ou des opportunités en CDI. N'hésitez pas à me contacter pour discuter de votre projet.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:john@exemple.fr" class="contact-link">
+          <span class="contact-link-icon">✉</span>
+          john@exemple.fr
+        </a>
+        <a href="https://linkedin.com" class="contact-link" target="_blank">
+          <span class="contact-link-icon">in</span>
+          linkedin.com/in/johndoe
+        </a>
+        <a href="https://github.com" class="contact-link" target="_blank">
+          <span class="contact-link-icon" style="font-size:16px">⌥</span>
+          github.com/johndoe
+        </a>
+      </div>
+    </div>
+
+    <form class="contact-form reveal reveal-delay-1" onsubmit="return false">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Prénom</label>
+          <input type="text" class="form-input" placeholder="Marie">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom</label>
+          <input type="text" class="form-input" placeholder="Dupont">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="marie@entreprise.fr">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Décrivez votre projet ou opportunité..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        Envoyer le message
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="footer-copy">© 2025 John Doe — Construit avec Angular, hébergé sur GitHub Pages</span>
+  <div class="footer-socials">
+    <a href="#" class="footer-social" title="GitHub">⌥</a>
+    <a href="#" class="footer-social" title="LinkedIn">in</a>
+    <a href="#" class="footer-social" title="Twitter">𝕏</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // Trigger hero immediately
+  document.querySelectorAll('.hero .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 100);
+  });
+</script>
+</body>
+</html>
