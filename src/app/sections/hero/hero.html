@@ -1,68 +1,56 @@
 <section class="hero" id="accueil">
-  <div class="hero-inner">
 
-    <div class="hero-content">
-      <div class="hero-tag">
-        <span class="dot-live"></span>
-        En poste — ouvert aux opportunités
-      </div>
-
-      <h1>Raphaël Attal</h1>
-      <p class="hero-role">
-        Développeur <strong>Fullstack Angular, React &amp; Spring Boot</strong>
-      </p>
-      <p class="hero-desc">
-        Étudiant ingénieur 5ème année à CESI Nice, en alternance chez Capgemini.
-        Passionné par le développement web fullstack, avec une expérience internationale
-        au sein de RGB à Penang, Malaisie. Je construis des projets end-to-end,
-        de la base de données au frontend.
-      </p>
-
-      <div class="hero-actions">
-        <a href="#projets" class="btn-primary">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 7h18M3 12h18M3 17h18"/>
-          </svg>
-          Voir mes projets
-        </a>
-        <a href="cv/raphael-attal-cv.pdf" class="btn-secondary" download>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-          </svg>
-          Télécharger mon CV
-        </a>
-      </div>
+  <div class="hero-top">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-tick"></span>
+      En poste &middot; Ouvert aux opportunités &middot; Nice, France
     </div>
 
-    <div class="hero-card" appReveal [revealDelay]="200">
-      <div class="hero-card-label">// aperçu</div>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-value">2+</div>
-          <div class="stat-label">Années d'expérience</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">5+</div>
-          <div class="stat-label">Projets livrés</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">10+</div>
-          <div class="stat-label">Techs maîtrisées</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">2</div>
-          <div class="stat-label">Langues parlées</div>
-        </div>
-      </div>
-      <div class="hero-card-tags">
-        <span class="tag">Angular</span>
-        <span class="tag">React</span>
-        <span class="tag">Spring Boot</span>
-        <span class="tag">Node.js</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag green">Open to work</span>
-      </div>
-    </div>
+    <h1 class="hero-name">
+      <span class="name-block">
+        <span #heroW1>Raphaël</span>
+        <span class="zap-bar"></span>
+      </span>
+      <br>
+      <span #heroW2>Attal</span>
+    </h1>
 
+    <p class="hero-role">Développeur Fullstack &mdash; Angular &middot; React &middot; Spring Boot</p>
   </div>
+
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Étudiant ingénieur 5ème année à CESI Nice, en alternance chez Capgemini.
+      Ex-RGB Penang, Malaisie. Je construis des projets end-to-end,
+      de la base de données au pixel.
+    </p>
+    <div class="hero-actions">
+      <a href="#projets" class="btn btn-solid">Voir les projets</a>
+      <a href="cv/raphael-attal-cv.pdf" class="btn btn-ghost" download>Télécharger mon CV</a>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num" data-target="2" data-suffix="+">0</div>
+      <div class="stat-lbl">Années d'exp.</div>
+      <div class="stat-zap"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="5" data-suffix="+">0</div>
+      <div class="stat-lbl">Projets livrés</div>
+      <div class="stat-zap"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="10" data-suffix="+">0</div>
+      <div class="stat-lbl">Techs maîtrisées</div>
+      <div class="stat-zap"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="4" data-suffix="">0</div>
+      <div class="stat-lbl">Langues parlées</div>
+      <div class="stat-zap"></div>
+    </div>
+  </div>
+
 </section>

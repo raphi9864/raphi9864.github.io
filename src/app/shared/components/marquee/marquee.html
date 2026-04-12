@@ -1,0 +1,10 @@
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    @for (t of techs; track t) {
+      <span>{{ t }}</span><span class="sep">&#10022;</span>
+    }
+    @for (t of techs; track t + '_2') {
+      <span>{{ t }}</span><span class="sep">&#10022;</span>
+    }
+  </div>
+</div>

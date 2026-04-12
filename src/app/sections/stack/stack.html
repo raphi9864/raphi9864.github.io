@@ -1,31 +1,44 @@
 <section id="stack">
-  <div appReveal>
-    <div class="section-label">Outils &amp; technologies</div>
-    <h2 class="section-title">Ma stack technique</h2>
-    <p class="section-sub">
-      Les technologies avec lesquelles je travaille au quotidien,
-      côté client, serveur et infrastructure.
-    </p>
-  </div>
+  <div class="s-label">Stack</div>
+  <h2 class="s-title" appReveal>Langages <em>&amp; outils</em></h2>
 
-  <div class="stack-grid">
-    @for (cat of categories; track cat.label; let i = $index) {
-      <div class="stack-category" appReveal [revealDelay]="(i + 1) * 150">
-        <div class="stack-cat-label">{{ cat.label }}</div>
-        <div class="stack-items">
-          @for (item of cat.items; track item.name) {
-            <div class="stack-item">
-              <div class="stack-icon">{{ item.icon }}</div>
-              <div class="stack-info">
-                <div class="stack-name">{{ item.name }}</div>
-                <div class="stack-bar-bg">
-                  <div class="stack-bar" [style.width.%]="item.level"></div>
-                </div>
+  <div class="skills-layout">
+
+    <!-- GitHub API language bars -->
+    <div appReveal>
+      <div class="gh-panel-title">Langages &mdash; données GitHub live</div>
+      <div class="gh-status">{{ ghStatus }}</div>
+      <div class="lang-bars">
+        @for (bar of langBars; track bar.lang) {
+          <div class="lang-row">
+            <div class="lang-header">
+              <span class="lang-name">{{ bar.lang }}</span>
+              <span class="lang-pct">{{ bar.pct }}%</span>
+            </div>
+            <div class="lang-track">
+              <div class="lang-fill"
+                [style.background]="bar.color"
+                [attr.data-pct]="bar.pct">
               </div>
             </div>
-          }
-        </div>
+          </div>
+        }
       </div>
-    }
+    </div>
+
+    <!-- Skill chips -->
+    <div appReveal [revealDelay]="150">
+      @for (cat of categories; track cat.label) {
+        <div class="skill-group">
+          <div class="skill-group-title">{{ cat.label }}</div>
+          <div class="skill-chips">
+            @for (item of cat.items; track item.name) {
+              <span class="chip">{{ item.name }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
   </div>
 </section>

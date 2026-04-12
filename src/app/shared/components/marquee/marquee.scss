@@ -1,0 +1,33 @@
+:host { display: block; }
+
+.marquee-strip {
+  overflow: hidden;
+  padding: .7rem 0;
+  background: var(--ink);
+  color: var(--bg);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  white-space: nowrap;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+
+  span {
+    font-family: var(--cond);
+    font-weight: 700;
+    font-size: .9rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .sep { color: var(--zap); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}

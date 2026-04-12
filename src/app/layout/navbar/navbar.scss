@@ -4,69 +4,64 @@ nav {
   left: 0;
   right: 0;
   z-index: 100;
-  height: 64px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 4rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(16, 19, 26, 0.8);
-  backdrop-filter: blur(16px);
-}
+  align-items: center;
+  padding: 1.25rem 3rem;
+  border-bottom: 1px solid transparent;
+  transition: background .3s, border-color .3s;
 
-.accent-dot {
-  color: var(--accent);
+  &.scrolled {
+    background: rgba(242, 239, 232, .92);
+    border-color: var(--rule);
+    backdrop-filter: blur(8px);
+  }
 }
 
 .nav-logo {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  color: var(--text-bright);
-  letter-spacing: -0.3px;
+  font-family: var(--cond);
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+
+  sup {
+    font-size: .5rem;
+    letter-spacing: .1em;
+    color: var(--mid);
+    vertical-align: super;
+    font-weight: 300;
+  }
 }
 
 .nav-links {
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   list-style: none;
-}
 
-.nav-links a {
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: color var(--transition);
-}
+  a {
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color .15s;
 
-.nav-links a:hover {
-  color: var(--text-bright);
+    &:hover { color: var(--ink); }
+  }
 }
 
 .nav-cta {
-  background: var(--accent) !important;
-  color: #fff !important;
-  padding: 0.45rem 1.1rem !important;
-  border-radius: 6px;
-  font-size: 13px !important;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
-  font-weight: 500 !important;
+  background: var(--ink) !important;
+  color: var(--bg) !important;
+  padding: .4rem 1rem !important;
+  border-radius: 2px;
+
+  &:hover { opacity: .85; }
 }
 
-.nav-cta:hover {
-  opacity: 0.85 !important;
-  color: #fff !important;
-}
-
-@media (max-width: 768px) {
-  nav {
-    padding: 0 1.5rem;
-  }
-
-  .nav-links {
-    display: none;
-  }
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
 }

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Raphael Attal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,700;0,900;1,900&family=Inconsolata:wght@300;400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F2EFE8;--ink:#0D0D0D;--mid:#9A9488;--rule:#D4CEBF;
+  --zap:#E8FF00;--zap2:#FF3D00;
+  --mono:'Inconsolata',monospace;--cond:'Barlow Condensed',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);overflow-x:hidden}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.25rem 3rem;
+  border-bottom:1px solid transparent;
+  transition:background .3s,border-color .3s;
+}
+nav.scrolled{background:rgba(242,239,232,.92);border-color:var(--rule);backdrop-filter:blur(8px)}
+.nav-logo{font-family:var(--cond);font-weight:900;font-size:1.4rem;letter-spacing:-.02em;text-transform:uppercase}
+.nav-logo sup{font-size:.5rem;letter-spacing:.1em;color:var(--mid);vertical-align:super;font-weight:300}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:grid;grid-template-rows:1fr auto;
+  padding:8rem 3rem 3rem;border-bottom:1px solid var(--rule);
+  position:relative;overflow:hidden;
+}
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,var(--rule) 79px,var(--rule) 80px);
+  opacity:.5;pointer-events:none;
+}
+.hero-top{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-eyebrow{
+  font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--mid);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;opacity:0;
+}
+.eyebrow-tick{display:inline-block;width:24px;height:1px;background:var(--zap2)}
+.hero-name{
+  font-family:var(--cond);font-weight:900;font-style:italic;
+  font-size:clamp(5rem,15vw,17rem);line-height:.88;
+  letter-spacing:-.04em;text-transform:uppercase;margin-bottom:1rem;
+}
+.hero-name .char{display:inline-block;opacity:0;transform:translateY(100%) skewX(-8deg)}
+.name-block{position:relative;display:inline-block}
+.zap-bar{
+  position:absolute;bottom:.05em;left:-.02em;right:-.02em;height:.18em;
+  background:var(--zap);z-index:-1;transform:scaleX(0);transform-origin:left;
+}
+.hero-role{
+  font-size:clamp(.9rem,2.2vw,1.5rem);font-family:var(--cond);font-weight:300;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--mid);opacity:0;margin-bottom:3rem;
+}
+.hero-bottom{
+  position:relative;z-index:1;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:1.5rem;padding-top:2rem;border-top:1px solid var(--rule);
+}
+.hero-desc{max-width:380px;font-size:.82rem;line-height:1.85;color:#4a4842;opacity:0}
+.hero-actions{display:flex;gap:.75rem;opacity:0}
+.btn{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.65rem 1.4rem;border-radius:2px;text-decoration:none;
+  display:inline-block;position:relative;overflow:hidden;transition:transform .2s;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  transform:translateX(-101%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:hover::before{transform:translateX(0)}
+.btn-solid{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}
+.btn-solid::before{background:var(--zap2)}
+.btn-solid:hover{color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.btn-ghost::before{background:var(--ink)}
+.btn-ghost:hover{color:var(--bg)}
+
+/* MARQUEE */
+.marquee-strip{
+  overflow:hidden;padding:.7rem 0;background:var(--ink);color:var(--bg);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.marquee-track{
+  display:flex;gap:3rem;white-space:nowrap;
+  animation:marquee 24s linear infinite;width:max-content;
+}
+.marquee-track span{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.18em;text-transform:uppercase}
+.marquee-track .sep{color:var(--zap);font-size:1rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section:not(#hero){padding:7rem 3rem;border-bottom:1px solid var(--rule)}
+.s-label{
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--mid);margin-bottom:.6rem;display:flex;align-items:center;gap:.6rem;
+}
+.s-label::before{content:'--';color:var(--rule)}
+.s-title{
+  font-family:var(--cond);font-weight:900;
+  font-size:clamp(2.5rem,6vw,5.5rem);
+  line-height:.95;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:4rem;
+}
+.s-title em{font-style:italic;color:var(--mid)}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule)}
+.stat{padding:2.5rem 2rem;border-right:1px solid var(--rule);position:relative;overflow:hidden}
+.stat:last-child{border-right:none}
+.stat-num{
+  font-family:var(--cond);font-weight:900;font-style:italic;
+  font-size:4.5rem;line-height:1;letter-spacing:-.04em;
+}
+.stat-lbl{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);margin-top:.4rem}
+.stat-zap{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--zap);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.stat:hover .stat-zap{transform:scaleX(1)}
+
+/* PROJECTS */
+.proj-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1px;border:1px solid var(--rule);background:var(--rule);
+}
+.pcard{background:var(--bg);padding:2rem;opacity:0;transform:translateY(30px);transition:background .25s}
+.pcard:hover{background:#fff}
+.pcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.pcard-num{
+  font-family:var(--cond);font-weight:900;font-style:italic;
+  font-size:3rem;line-height:1;color:var(--rule);transition:color .25s;
+}
+.pcard:hover .pcard-num{color:var(--zap)}
+.pcard-status{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .55rem;border-radius:1px;font-weight:700}
+.s-wip{background:#FFF3CD;color:#7A6200;border:1px solid #E5C800}
+.s-live{background:var(--zap);color:var(--ink)}
+.s-arch{background:var(--rule);color:var(--mid)}
+.pcard-title{font-family:var(--cond);font-weight:700;font-size:1.4rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:.6rem}
+.pcard-desc{font-size:.78rem;line-height:1.75;color:#4a4842;margin-bottom:1.25rem}
+.pcard-stack{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{
+  font-size:.62rem;letter-spacing:.08em;border:1px solid var(--rule);
+  color:var(--mid);padding:.18rem .5rem;border-radius:1px;transition:border-color .2s,color .2s;
+}
+.pcard:hover .tag{border-color:var(--ink);color:var(--ink)}
+.pcard-links{display:flex;gap:.75rem;margin-top:1.25rem}
+.pcard-link{
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);
+  padding-bottom:1px;transition:color .2s,border-color .2s;
+}
+.pcard-link:hover{color:var(--ink);border-color:var(--ink)}
+
+/* SKILLS */
+#skills{background:var(--ink);color:var(--bg)}
+#skills .s-title{color:var(--bg)}
+#skills .s-title em{color:#444}
+#skills .s-label{color:#444}
+#skills .s-label::before{color:#222}
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem}
+.gh-panel-title{
+  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#444;margin-bottom:1.25rem;
+  display:flex;align-items:center;gap:.75rem;
+}
+.gh-panel-title::after{content:'';flex:1;height:1px;background:#1e1e1e}
+.gh-status{font-size:.7rem;color:#444;font-style:italic;margin-bottom:1.5rem}
+.lang-bars{display:flex;flex-direction:column;gap:1.25rem}
+.lang-row{}
+.lang-header{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:.4rem}
+.lang-name{color:var(--bg)}
+.lang-pct{color:#444}
+.lang-track{height:2px;background:#1a1a1a;position:relative;overflow:hidden}
+.lang-fill{position:absolute;top:0;left:0;height:100%;width:0}
+.skill-group{margin-bottom:2.5rem}
+.skill-group-title{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#444;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #1a1a1a;
+}
+.skill-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{
+  font-size:.68rem;letter-spacing:.06em;padding:.35rem .8rem;
+  border:1px solid #1e1e1e;color:#666;border-radius:1px;
+  position:relative;overflow:hidden;transition:color .25s,border-color .25s;cursor:default;
+}
+.chip::before{
+  content:'';position:absolute;inset:0;background:var(--zap);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:-1;
+}
+.chip:hover{color:var(--ink);border-color:var(--zap)}
+.chip:hover::before{transform:scaleX(1)}
+
+/* FOOTER */
+footer{padding:3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-bottom:none}
+.f-mono{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
+.f-mono a{color:var(--ink);text-decoration:none}
+.f-mono a:hover{text-decoration:underline}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px)}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  #hero,section:not(#hero),footer{padding-left:1.5rem;padding-right:1.5rem}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){border-top:1px solid var(--rule)}
+  .skills-layout{grid-template-columns:1fr;gap:3rem}
+  .hero-name{font-size:clamp(4rem,18vw,17rem)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Raphael Attal <sup>v2026</sup></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-top">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-tick"></span>
+      En poste &middot; Ouvert aux opportunites &middot; Nice, France
+    </div>
+    <h1 class="hero-name">
+      <span class="name-block">
+        <span id="w1">Raphael</span>
+        <span class="zap-bar"></span>
+      </span><br/>
+      <span id="w2">Attal</span>
+    </h1>
+    <p class="hero-role">Developpeur Fullstack &mdash; Angular &middot; React &middot; Spring Boot</p>
+  </div>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Etudiant ingenieur 5A CESI Nice &middot; Alternant chez Capgemini &middot;
+      Ex-RGB Penang, Malaisie.<br/>
+      Je construis des produits end-to-end, de la base de donnees au pixel.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-solid">Voir les projets</a>
+      <a href="#contact"  class="btn btn-ghost">Me contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>Angular</span><span class="sep">&#10022;</span>
+    <span>React</span><span class="sep">&#10022;</span>
+    <span>Spring Boot</span><span class="sep">&#10022;</span>
+    <span>Node.js</span><span class="sep">&#10022;</span>
+    <span>PostgreSQL</span><span class="sep">&#10022;</span>
+    <span>TypeScript</span><span class="sep">&#10022;</span>
+    <span>Docker</span><span class="sep">&#10022;</span>
+    <span>Next.js</span><span class="sep">&#10022;</span>
+    <span>React Native</span><span class="sep">&#10022;</span>
+    <span>Stripe</span><span class="sep">&#10022;</span>
+    <span>Vercel</span><span class="sep">&#10022;</span>
+    <span>Git</span><span class="sep">&#10022;</span>
+    <span>Angular</span><span class="sep">&#10022;</span>
+    <span>React</span><span class="sep">&#10022;</span>
+    <span>Spring Boot</span><span class="sep">&#10022;</span>
+    <span>Node.js</span><span class="sep">&#10022;</span>
+    <span>PostgreSQL</span><span class="sep">&#10022;</span>
+    <span>TypeScript</span><span class="sep">&#10022;</span>
+    <span>Docker</span><span class="sep">&#10022;</span>
+    <span>Next.js</span><span class="sep">&#10022;</span>
+    <span>React Native</span><span class="sep">&#10022;</span>
+    <span>Stripe</span><span class="sep">&#10022;</span>
+    <span>Vercel</span><span class="sep">&#10022;</span>
+    <span>Git</span><span class="sep">&#10022;</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="s-label">A propos</div>
+  <h2 class="s-title reveal">2 ans de code,<br/><em>beaucoup a venir</em></h2>
+  <div class="stats-row">
+    <div class="stat reveal"><div class="stat-num" data-target="2">0</div><div class="stat-lbl">Annees d'exp.</div><div class="stat-zap"></div></div>
+    <div class="stat reveal"><div class="stat-num" data-target="5">0</div><div class="stat-lbl">Projets livres</div><div class="stat-zap"></div></div>
+    <div class="stat reveal"><div class="stat-num" data-target="10">0</div><div class="stat-lbl">Techs maitrisees</div><div class="stat-zap"></div></div>
+    <div class="stat reveal"><div class="stat-num" data-target="4">0</div><div class="stat-lbl">Langues parlees</div><div class="stat-zap"></div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="s-label">Projets</div>
+  <h2 class="s-title reveal">Ce que j'ai <em>construit</em></h2>
+  <div class="proj-grid">
+
+    <div class="pcard">
+      <div class="pcard-top"><div class="pcard-num">01</div><span class="pcard-status s-wip">WIP</span></div>
+      <div class="pcard-title">goodpessah.fr</div>
+      <p class="pcard-desc">E-commerce de livraison cachere pour Pessah. Paiement Stripe, auth Clerk, deploye sur Vercel. ~70% complete.</p>
+      <div class="pcard-stack">
+        <span class="tag">Next.js</span><span class="tag">PostgreSQL</span><span class="tag">Stripe</span><span class="tag">Clerk</span><span class="tag">Vercel</span>
+      </div>
+      <div class="pcard-links">
+        <a href="https://goodpessah.fr" target="_blank" class="pcard-link">Demo &rarr;</a>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pcard-top"><div class="pcard-num">02</div><span class="pcard-status s-wip">WIP</span></div>
+      <div class="pcard-title">Biblio</div>
+      <p class="pcard-desc">Systeme fullstack de gestion de bibliotheque : catalogue, emprunts, utilisateurs.</p>
+      <div class="pcard-stack">
+        <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span>
+      </div>
+      <div class="pcard-links">
+        <a href="#" class="pcard-link">GitHub &rarr;</a>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pcard-top"><div class="pcard-num">03</div><span class="pcard-status s-wip">WIP</span></div>
+      <div class="pcard-title">ORMIGA</div>
+      <p class="pcard-desc">App mobile AR pour visualiser des meubles en situation reelle. Ciblage B2B retailers.</p>
+      <div class="pcard-stack">
+        <span class="tag">Expo</span><span class="tag">React Native</span><span class="tag">Firebase</span><span class="tag">ARKit</span><span class="tag">ARCore</span>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pcard-top"><div class="pcard-num">04</div><span class="pcard-status s-arch">Archived</span></div>
+      <div class="pcard-title">Portail Capgemini</div>
+      <p class="pcard-desc">Portail d'onboarding interne pour les nouveaux collaborateurs. Gestion des acces et ressources.</p>
+      <div class="pcard-stack">
+        <span class="tag">Angular</span><span class="tag">Spring Boot</span><span class="tag">TypeScript</span>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pcard-top"><div class="pcard-num">05</div><span class="pcard-status s-arch">Archived</span></div>
+      <div class="pcard-title">AI Test Generator</div>
+      <p class="pcard-desc">Interface pour generer automatiquement des tests a partir d'une image via IA interne.</p>
+      <div class="pcard-stack">
+        <span class="tag">Angular</span><span class="tag">React</span><span class="tag">Spring Boot</span>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pcard-top"><div class="pcard-num">06</div><span class="pcard-status s-arch">Archived</span></div>
+      <div class="pcard-title">Notifications RGB &mdash; Penang</div>
+      <p class="pcard-desc">Systeme de notifications pour casinos a Penang, Malaisie. App Android + site web Angular.</p>
+      <div class="pcard-stack">
+        <span class="tag">React Native</span><span class="tag">Angular</span><span class="tag">TypeScript</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="s-label">Stack</div>
+  <h2 class="s-title reveal">Langages <em>&amp; outils</em></h2>
+  <div class="skills-layout">
+
+    <!-- GitHub API live -->
+    <div class="reveal">
+      <div class="gh-panel-title">Langages &mdash; donnees GitHub live</div>
+      <div class="gh-status" id="gh-status">Chargement depuis l'API GitHub...</div>
+      <div class="lang-bars" id="lang-bars"></div>
+    </div>
+
+    <!-- Manual chips -->
+    <div class="reveal">
+      <div class="skill-group">
+        <div class="skill-group-title">Frontend</div>
+        <div class="skill-chips">
+          <span class="chip">Angular</span><span class="chip">React</span>
+          <span class="chip">React Native</span><span class="chip">TypeScript</span>
+          <span class="chip">HTML5</span><span class="chip">CSS3</span>
+          <span class="chip">Next.js</span><span class="chip">GSAP</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Backend</div>
+        <div class="skill-chips">
+          <span class="chip">Node.js</span><span class="chip">Express</span>
+          <span class="chip">Spring Boot</span><span class="chip">Java</span>
+          <span class="chip">REST API</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Infra &amp; Outils</div>
+        <div class="skill-chips">
+          <span class="chip">PostgreSQL</span><span class="chip">Docker</span>
+          <span class="chip">Git</span><span class="chip">Vercel</span>
+          <span class="chip">Stripe</span><span class="chip">Clerk</span><span class="chip">Firebase</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Langues</div>
+        <div class="skill-chips">
+          <span class="chip">Francais &mdash; natif</span>
+          <span class="chip">Anglais &mdash; C1</span>
+          <span class="chip">Espagnol &mdash; pro</span>
+          <span class="chip">Mandarin &mdash; A2</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="f-mono">&copy; 2026 Raphael Attal</div>
+  <div class="f-mono"><a href="mailto:raphaelattal98@gmail.com">raphaelattal98@gmail.com</a></div>
+  <div class="f-mono">CESI Nice &middot; Capgemini</div>
+</footer>
+
+<!-- PAGE TRANSITION OVERLAY -->
+<div id="overlay" style="position:fixed;inset:0;z-index:8000;background:#E8FF00;transform:scaleY(0);transform-origin:bottom;pointer-events:none;"></div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── Nav scroll ────────────────────────────────────
+ScrollTrigger.create({
+  start: 80,
+  onEnter:     () => document.getElementById('nav').classList.add('scrolled'),
+  onLeaveBack: () => document.getElementById('nav').classList.remove('scrolled'),
+});
+
+// ── Split chars ───────────────────────────────────
+function splitWord(el) {
+  const txt = el.textContent;
+  el.innerHTML = txt.split('').map(c =>
+    c === ' ' ? ' ' : `<span class="char">${c}</span>`
+  ).join('');
+  return el.querySelectorAll('.char');
+}
+
+// ── Hero entrance ─────────────────────────────────
+const chars1 = splitWord(document.getElementById('w1'));
+const chars2 = splitWord(document.getElementById('w2'));
+
+gsap.timeline({ delay: 0.1 })
+  .to('.hero-eyebrow', { opacity:1, y:0, duration:.5, ease:'power2.out' })
+  .to(chars1, { opacity:1, y:0, skewX:0, duration:.55, stagger:.03, ease:'expo.out' }, '-=.1')
+  .to('.zap-bar', { scaleX:1, duration:.5, ease:'expo.out' }, '-=.15')
+  .to(chars2, { opacity:1, y:0, skewX:0, duration:.6, stagger:.035, ease:'expo.out' }, '-=.5')
+  .to('.hero-role',    { opacity:1, duration:.5, ease:'power2.out' }, '-=.25')
+  .to('.hero-desc',    { opacity:1, duration:.45, ease:'power2.out' }, '-=.2')
+  .to('.hero-actions', { opacity:1, duration:.4,  ease:'power2.out' }, '-=.2');
+
+// ── Scroll reveals ────────────────────────────────
+gsap.utils.toArray('.reveal').forEach(el => {
+  gsap.to(el, {
+    opacity:1, y:0, duration:.85, ease:'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 87%' }
+  });
+});
+
+// ── Project cards stagger ─────────────────────────
+gsap.to('.pcard', {
+  opacity:1, y:0, duration:.6, stagger:.08, ease:'power3.out',
+  scrollTrigger: { trigger: '.proj-grid', start: 'top 82%' }
+});
+
+// ── Stat counters ─────────────────────────────────
+document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+  const t = +el.getAttribute('data-target');
+  ScrollTrigger.create({
+    trigger: el, start: 'top 88%', once: true,
+    onEnter: () => {
+      gsap.to({ v:0 }, {
+        v: t, duration:1.3, ease:'power2.out',
+        onUpdate() { el.textContent = Math.ceil(this.targets()[0].v) + '+'; }
+      });
+    }
+  });
+});
+
+// ── Page transition ───────────────────────────────
+const overlay = document.getElementById('overlay');
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    gsap.timeline()
+      .to(overlay, { scaleY:1, transformOrigin:'bottom', duration:.38, ease:'power3.inOut' })
+      .to(overlay, { scaleY:0, transformOrigin:'top',    duration:.38, ease:'power3.inOut',
+        onStart: () => target.scrollIntoView({ behavior:'instant' }) });
+  });
+});
+
+// ── GitHub API ────────────────────────────────────
+// Remplace par ton vrai username GitHub
+const GH_USER = 'raphi9864';
+
+const LANG_COLORS = {
+  TypeScript:'#3178c6', JavaScript:'#f7df1e', Java:'#b07219',
+  HTML:'#e34c26', CSS:'#563d7c', Python:'#3572A5',
+  Kotlin:'#A97BFF', Dart:'#00B4AB', 'C#':'#178600',
+  Shell:'#89e051', Vue:'#41b883', SCSS:'#c6538c',
+};
+
+const FALLBACK = [
+  { lang:'TypeScript', pct:38, color:'#3178c6' },
+  { lang:'JavaScript', pct:24, color:'#f7df1e' },
+  { lang:'Java',       pct:18, color:'#b07219' },
+  { lang:'HTML',       pct:10, color:'#e34c26' },
+  { lang:'CSS',        pct:7,  color:'#563d7c' },
+  { lang:'Shell',      pct:3,  color:'#89e051' },
+];
+
+function renderBars(data) {
+  const barsEl = document.getElementById('lang-bars');
+  barsEl.innerHTML = '';
+  data.forEach(({ lang, pct, color }) => {
+    const row = document.createElement('div');
+    row.className = 'lang-row';
+    row.innerHTML = `
+      <div class="lang-header">
+        <span class="lang-name">${lang}</span>
+        <span class="lang-pct">${pct}%</span>
+      </div>
+      <div class="lang-track">
+        <div class="lang-fill" style="background:${color}" data-pct="${pct}"></div>
+      </div>`;
+    barsEl.appendChild(row);
+  });
+  ScrollTrigger.create({
+    trigger: barsEl, start: 'top 85%', once: true,
+    onEnter: () => {
+      barsEl.querySelectorAll('.lang-fill').forEach((fill, i) => {
+        gsap.to(fill, { width: fill.dataset.pct + '%', duration:1.1, delay: i * .07, ease:'power3.out' });
+      });
+    }
+  });
+}
+
+async function loadGH() {
+  const statusEl = document.getElementById('gh-status');
+  if (GH_USER === 'TON_USERNAME_GITHUB') {
+    statusEl.textContent = 'Remplace GH_USER dans le JS pour afficher tes vrais langages.';
+    renderBars(FALLBACK);
+    return;
+  }
+  try {
+    const res = await fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=30&sort=pushed`);
+    if (!res.ok) throw new Error(res.status);
+    const repos = await res.json();
+    const maps  = await Promise.all(repos.map(r => fetch(r.languages_url).then(r => r.json()).catch(() => ({}))));
+    const totals = {};
+    maps.forEach(m => Object.entries(m).forEach(([l, b]) => { totals[l] = (totals[l]||0) + b; }));
+    const total  = Object.values(totals).reduce((a,b) => a+b, 0);
+    const sorted = Object.entries(totals).sort((a,b) => b[1]-a[1]).slice(0, 8);
+    statusEl.textContent = `${repos.length} repos · ${Object.keys(totals).length} langages detectes`;
+    renderBars(sorted.map(([lang, bytes]) => ({
+      lang, pct: Math.round(bytes / total * 100),
+      color: LANG_COLORS[lang] || '#555'
+    })));
+  } catch {
+    statusEl.textContent = 'Donnees statiques (GitHub inaccessible depuis cette preview)';
+    renderBars(FALLBACK);
+  }
+}
+
+loadGH();
+</script>
+</body>
+</html>

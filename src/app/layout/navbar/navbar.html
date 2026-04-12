@@ -1,9 +1,11 @@
-<nav>
-  <div class="nav-logo">Raphaël<span class="accent-dot">.</span>Attal</div>
+<nav [class.scrolled]="scrolled">
+  <div class="nav-logo">
+    Raphael Attal <sup>v2026</sup>
+  </div>
   <ul class="nav-links">
-    <li><a href="#projets">Projets</a></li>
-    <li><a href="#stack">Stack</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#contact" class="nav-cta">Me contacter</a></li>
+    <li><a href="#projets"  (click)="navigate($event, '#projets')">Work</a></li>
+    <li><a href="#stack"    (click)="navigate($event, '#stack')">Stack</a></li>
+    <li><a href="#contact"  (click)="navigate($event, '#contact')">Contact</a></li>
+    <li><a href="#contact"  (click)="navigate($event, '#contact')" class="nav-cta">Me contacter</a></li>
   </ul>
 </nav>

@@ -1,14 +1,17 @@
-.projects-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+section {
+  padding: 7rem 3rem;
+  border-bottom: 1px solid var(--rule);
 }
 
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  gap: 1px;
+  border: 1px solid var(--rule);
+  background: var(--rule);
+}
+
+@media (max-width: 900px) {
+  section { padding: 5rem 1.5rem; }
+  .projects-grid { grid-template-columns: 1fr; }
 }

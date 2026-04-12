@@ -9,4 +9,5 @@ import { Project } from '../../../core/models/project.model';
 })
 export class ProjectCard {
   @Input() project!: Project;
+  @Input() cardIndex = 1;
 }

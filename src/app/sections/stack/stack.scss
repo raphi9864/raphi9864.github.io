@@ -1,72 +1,120 @@
-.stack-grid {
+section {
+  padding: 7rem 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  background: var(--ink);
+  color: var(--bg);
+
+  .s-label { color: #444; &::before { color: #222; } }
+  .s-title  { color: var(--bg); em { color: #444; } }
+}
+
+.skills-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
-  margin-top: 3rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
 }
 
-.stack-category {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-}
-
-.stack-cat-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--accent);
+// GitHub language bars
+.gh-panel-title {
+  font-size: .62rem;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  color: #444;
   margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+
+  &::after { content: ''; flex: 1; height: 1px; background: #1e1e1e; }
 }
 
-.stack-items {
+.gh-status {
+  font-size: .7rem;
+  color: #444;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.lang-bars {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
 }
 
-.stack-item {
+.lang-header {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  font-size: .72rem;
+  margin-bottom: .4rem;
 }
 
-.stack-icon {
-  width: 32px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
+.lang-name { color: var(--bg); }
+.lang-pct  { color: #444; }
 
-.stack-info {
-  flex: 1;
-}
-
-.stack-name {
-  font-size: 13.5px;
-  color: var(--text-bright);
-  font-weight: 500;
-  margin-bottom: 0.15rem;
-}
-
-.stack-bar-bg {
-  height: 3px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
+.lang-track {
+  height: 2px;
+  background: #1a1a1a;
+  position: relative;
   overflow: hidden;
 }
 
-.stack-bar {
+.lang-fill {
+  position: absolute;
+  top: 0; left: 0;
   height: 100%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--green));
-  transition: width 1s ease;
+  width: 0;
+}
+
+// Chip groups
+.skill-group { margin-bottom: 2.5rem; }
+
+.skill-group-title {
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #444;
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.chip {
+  font-size: .68rem;
+  letter-spacing: .06em;
+  padding: .35rem .8rem;
+  border: 1px solid #1e1e1e;
+  color: #666;
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+  transition: color .25s, border-color .25s;
+  cursor: default;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--zap);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s;
+    z-index: -1;
+  }
+
+  &:hover {
+    color: var(--ink);
+    border-color: var(--zap);
+    &::before { transform: scaleX(1); }
+  }
+}
+
+@media (max-width: 900px) {
+  section { padding: 5rem 1.5rem; }
+  .skills-layout { grid-template-columns: 1fr; gap: 3rem; }
 }
